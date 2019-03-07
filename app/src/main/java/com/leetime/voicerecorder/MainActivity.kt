@@ -24,7 +24,8 @@ import com.gun0912.tedpermission.TedPermissionBase.getDeniedPermissions
 import com.gun0912.tedpermission.TedPermissionBase.isGranted
 import com.tedpark.tedpermission.rx2.TedRx2Permission
 import javax.security.auth.callback.Callback
-
+import android.view.Menu
+import android.view.MenuItem
 
 
 class MainActivity : AppCompatActivity() {
@@ -110,8 +111,8 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     private fun checkPermission(callback: ((Boolean)->Unit)) {
 
-        val title = "hhhh"
-        val msg = "msg"
+        val title = "Please Grant Permissions"
+        val msg = "Please Grant Permissions"
 
         TedRx2Permission.with(this)
             .setRationaleTitle(title)
@@ -132,6 +133,23 @@ class MainActivity : AppCompatActivity() {
                         .show()
                 }
             }, { throwable -> })
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.getItemId()
+
+        if (id == R.id.action_more) {
+            Toast.makeText(this, "Show Recording File", Toast.LENGTH_LONG).show()
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }
 
