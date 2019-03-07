@@ -27,6 +27,9 @@ import com.tedpark.tedpermission.rx2.TedRx2Permission
 import javax.security.auth.callback.Callback
 import android.view.Menu
 import android.view.MenuItem
+import com.leetime.voicerecorder.AppManager.outputFolder
+import com.leetime.voicerecorder.Extensions.toSimpleString
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     private var myAudioRecorder: MediaRecorder? = null
     private var outputFile: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -42,32 +46,39 @@ class MainActivity : AppCompatActivity() {
             if (it) { initSetting() }
         }
 
-
     }
+
+    // MARK: - Init Setting
     private fun initSetting(){
         initVariables()
-        initRecorder()
         initBinding()
     }
-
     private fun initVariables(){
-        val sdcardPath = Environment.getExternalStorageDirectory().getAbsolutePath()
-        val folderName = "$sdcardPath/voiceRecorder"
-        val folderFileObject = File(folderName)
+        val folderFileObject = File(outputFolder)
         if (!folderFileObject.exists()) {
             folderFileObject.mkdir()
         }
-        outputFile = "$folderName/recording.3gp"
-
     }
     private fun initRecorder(){
+        val nowDate = Date().toSimpleString()
+        Log.v("test", nowDate)
+        myAudioRecorder = null
         myAudioRecorder = MediaRecorder()
+        outputFile = "$outputFolder/$nowDate.3gp"
         myAudioRecorder?.let {
             it.setAudioSource(MediaRecorder.AudioSource.MIC)
             it.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
             it.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB)
             it.setOutputFile(outputFile)
         }
+
+        try {
+            myAudioRecorder?.prepare();
+            myAudioRecorder?.start();
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
     }
 
     @SuppressLint("CheckResult")
@@ -75,13 +86,7 @@ class MainActivity : AppCompatActivity() {
         btn_recorde
             .clicks()
             .subscribe{
-                try {
-                    myAudioRecorder?.prepare();
-                    myAudioRecorder?.start();
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-                Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
+                this.initRecorder()
             }
         btn_record_stop
             .clicks()
@@ -107,7 +112,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
     }
-
 
     @SuppressLint("CheckResult")
     private fun checkPermission(callback: ((Boolean)->Unit)) {
@@ -136,7 +140,7 @@ class MainActivity : AppCompatActivity() {
             }, { throwable -> })
     }
 
-
+// MARK: - Create Menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
