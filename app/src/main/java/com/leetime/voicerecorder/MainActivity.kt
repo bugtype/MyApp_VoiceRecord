@@ -17,6 +17,7 @@ import android.Manifest.permission
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.Manifest.permission.RECORD_AUDIO
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.media.MediaPlayer
 import android.util.Log
 import java.io.File
@@ -146,6 +147,11 @@ class MainActivity : AppCompatActivity() {
 
         if (id == R.id.action_more) {
             Toast.makeText(this, "Show Recording File", Toast.LENGTH_LONG).show()
+
+            val intent = Intent(this, RecodingFilesListActivity::class.java)
+            startActivity(intent)
+
+
             return true
         }
 
