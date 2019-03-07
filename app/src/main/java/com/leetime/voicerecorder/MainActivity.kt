@@ -10,21 +10,12 @@ import android.widget.Toast
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
-import androidx.core.app.ActivityCompat
-import android.content.pm.PackageManager
-import androidx.core.content.ContextCompat
-import android.Manifest.permission
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-import android.Manifest.permission.RECORD_AUDIO
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.MediaPlayer
 import android.util.Log
 import java.io.File
-import com.gun0912.tedpermission.TedPermissionBase.getDeniedPermissions
-import com.gun0912.tedpermission.TedPermissionBase.isGranted
 import com.tedpark.tedpermission.rx2.TedRx2Permission
-import javax.security.auth.callback.Callback
 import android.view.Menu
 import android.view.MenuItem
 import com.leetime.voicerecorder.AppManager.outputFolder
@@ -42,24 +33,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        checkPermission{
-            if (it) { initSetting() }
+        checkPermission {
+            if (it) {
+                initSetting()
+            }
         }
 
     }
 
     // MARK: - Init Setting
-    private fun initSetting(){
+    private fun initSetting() {
         initVariables()
         initBinding()
     }
-    private fun initVariables(){
+
+    private fun initVariables() {
         val folderFileObject = File(outputFolder)
         if (!folderFileObject.exists()) {
             folderFileObject.mkdir()
         }
     }
-    private fun initRecorder(){
+
+    private fun initRecorder() {
         val nowDate = Date().toSimpleString()
         Log.v("test", nowDate)
         myAudioRecorder = null
@@ -82,10 +77,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("CheckResult")
-    private fun initBinding(){
+    private fun initBinding() {
         btn_recorde
             .clicks()
-            .subscribe{
+            .subscribe {
                 this.initRecorder()
             }
         btn_record_stop
@@ -114,7 +109,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("CheckResult")
-    private fun checkPermission(callback: ((Boolean)->Unit)) {
+    private fun checkPermission(callback: ((Boolean) -> Unit)) {
 
         val title = "Please Grant Permissions"
         val msg = "Please Grant Permissions"
@@ -140,7 +135,7 @@ class MainActivity : AppCompatActivity() {
             }, { throwable -> })
     }
 
-// MARK: - Create Menu
+    // MARK: - Create Menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
