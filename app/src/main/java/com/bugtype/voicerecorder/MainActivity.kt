@@ -1,11 +1,9 @@
-package com.leetime.voicerecorder
+package com.bugtype.voicerecorder
 
 import android.Manifest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.media.MediaRecorder
-import android.os.Environment
-import android.os.Environment.getExternalStorageDirectory
 import android.widget.Toast
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.activity_main.*
@@ -18,8 +16,8 @@ import java.io.File
 import com.tedpark.tedpermission.rx2.TedRx2Permission
 import android.view.Menu
 import android.view.MenuItem
-import com.leetime.voicerecorder.AppManager.outputFolder
-import com.leetime.voicerecorder.Extensions.toSimpleString
+import com.bugtype.voicerecorder.AppManager.outputFolder
+import com.bugtype.voicerecorder.Extensions.toSimpleString
 import java.util.*
 
 

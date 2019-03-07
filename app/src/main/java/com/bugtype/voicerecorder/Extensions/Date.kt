@@ -1,4 +1,4 @@
-package com.leetime.voicerecorder.Extensions
+package com.bugtype.voicerecorder.Extensions
 
 import java.text.SimpleDateFormat
 import java.util.*

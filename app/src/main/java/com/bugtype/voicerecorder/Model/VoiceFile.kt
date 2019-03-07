@@ -1,4 +1,4 @@
-package com.leetime.voicerecorder.Model
+package com.bugtype.voicerecorder.Model
 
 
 class VoiceFile  {

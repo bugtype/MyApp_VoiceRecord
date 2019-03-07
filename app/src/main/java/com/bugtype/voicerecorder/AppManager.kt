@@ -1,4 +1,4 @@
-package com.leetime.voicerecorder
+package com.bugtype.voicerecorder
 
 import android.os.Environment
 
