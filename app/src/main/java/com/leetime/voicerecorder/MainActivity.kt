@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import android.Manifest.permission
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.Manifest.permission.RECORD_AUDIO
+import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.util.Log
 import java.io.File
@@ -23,7 +24,8 @@ import com.gun0912.tedpermission.TedPermissionBase.getDeniedPermissions
 import com.gun0912.tedpermission.TedPermissionBase.isGranted
 import com.tedpark.tedpermission.rx2.TedRx2Permission
 import javax.security.auth.callback.Callback
-
+import android.view.Menu
+import android.view.MenuItem
 
 
 class MainActivity : AppCompatActivity() {
@@ -41,13 +43,23 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-    fun initSetting(){
+    private fun initSetting(){
+        initVariables()
         initRecorder()
         initBinding()
     }
 
-    fun initRecorder(){
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp"
+    private fun initVariables(){
+        val sdcardPath = Environment.getExternalStorageDirectory().getAbsolutePath()
+        val folderName = "$sdcardPath/voiceRecorder"
+        val folderFileObject = File(folderName)
+        if (!folderFileObject.exists()) {
+            folderFileObject.mkdir()
+        }
+        outputFile = "$folderName/recording.3gp"
+
+    }
+    private fun initRecorder(){
         myAudioRecorder = MediaRecorder()
         myAudioRecorder?.let {
             it.setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -55,9 +67,10 @@ class MainActivity : AppCompatActivity() {
             it.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB)
             it.setOutputFile(outputFile)
         }
-
     }
-    fun initBinding(){
+
+    @SuppressLint("CheckResult")
+    private fun initBinding(){
         btn_recorde
             .clicks()
             .subscribe{
@@ -94,10 +107,12 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    fun checkPermission(callback: ((Boolean)->Unit)) {
 
-        val title = "hhhh"
-        val msg = "msg"
+    @SuppressLint("CheckResult")
+    private fun checkPermission(callback: ((Boolean)->Unit)) {
+
+        val title = "Please Grant Permissions"
+        val msg = "Please Grant Permissions"
 
         TedRx2Permission.with(this)
             .setRationaleTitle(title)
@@ -118,6 +133,23 @@ class MainActivity : AppCompatActivity() {
                         .show()
                 }
             }, { throwable -> })
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.getItemId()
+
+        if (id == R.id.action_more) {
+            Toast.makeText(this, "Show Recording File", Toast.LENGTH_LONG).show()
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }
 
