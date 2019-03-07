@@ -1,4 +1,4 @@
-package com.leetime.voicerecorder
+package com.bugtype.voicerecorder
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

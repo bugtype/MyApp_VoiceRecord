@@ -1,9 +1,9 @@
-package com.leetime.voicerecorder
+package com.bugtype.voicerecorder
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.leetime.voicerecorder.AppManager.outputFolder
-import com.leetime.voicerecorder.Model.VoiceFile
+import com.bugtype.voicerecorder.AppManager.outputFolder
+import com.bugtype.voicerecorder.Model.VoiceFile
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_record_files.*
