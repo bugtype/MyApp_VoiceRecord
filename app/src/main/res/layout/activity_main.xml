@@ -26,11 +26,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_record_stop"
-            app:layout_constraintStart_toEndOf="@+id/btn_recorde" android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
-    <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_play"
-            android:layout_marginStart="8dp" app:layout_constraintStart_toEndOf="@+id/btn_record_stop"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

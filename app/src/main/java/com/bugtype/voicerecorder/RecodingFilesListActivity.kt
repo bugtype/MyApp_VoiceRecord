@@ -1,7 +1,10 @@
 package com.bugtype.voicerecorder
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bugtype.voicerecorder.AppManager.outputFolder
 import com.bugtype.voicerecorder.Model.VoiceFile
 import io.reactivex.Observable
@@ -12,22 +15,35 @@ import java.io.File
 
 class RecodingFilesListActivity : AppCompatActivity() {
 
-    var voiceFileList: ArrayList<VoiceFile> = ArrayList()
 
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private var voiceFileList: ArrayList<VoiceFile> = ArrayList()
+    private var adapter: RecodingFilesAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record_files)
+        initRecycleView()
         getFileList()
     }
+    private fun initRecycleView(){
+        adapter = RecodingFilesAdapter(voiceFileList)
+        linearLayoutManager = LinearLayoutManager(this)
+        rcycView_fileList.layoutManager = linearLayoutManager
+        rcycView_fileList?.adapter = adapter
+    }
 
+
+    @SuppressLint("CheckResult")
     private fun updateUI(){
 
         Observable
             .fromIterable(voiceFileList)
             .subscribeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                txt_file_list.text = txt_file_list.text.toString() + it.name + "\n"
+            .doOnComplete {
+                adapter?.notifyDataSetChanged()
+                rcycView_fileList.invalidate()
             }
+
     }
 
     private fun getFileList() {

@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecorder() {
         val nowDate = Date().toSimpleString()
-        Log.v("test", nowDate)
         myAudioRecorder = null
         myAudioRecorder = MediaRecorder()
         outputFile = "$outputFolder/$nowDate.3gp"
@@ -88,21 +87,6 @@ class MainActivity : AppCompatActivity() {
                 myAudioRecorder?.release();
                 myAudioRecorder = null;
                 Toast.makeText(getApplicationContext(), "Audio Recorder stopped", Toast.LENGTH_LONG).show();
-            }
-        btn_play
-            .clicks()
-            .subscribe {
-                val mediaPlayer = MediaPlayer()
-                try {
-                    Log.v("Test", File(outputFile).exists().toString())
-                    mediaPlayer.setDataSource(outputFile)
-                    mediaPlayer.prepare()
-                    mediaPlayer.start()
-                    Toast.makeText(applicationContext, "Playing Audio", Toast.LENGTH_LONG).show()
-                } catch (e: Exception) {
-                    // make something
-                    e.printStackTrace()
-                }
             }
     }
 
