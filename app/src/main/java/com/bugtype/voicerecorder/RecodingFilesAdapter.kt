@@ -1,5 +1,7 @@
 package com.bugtype.voicerecorder
 
+import android.annotation.SuppressLint
+import android.media.MediaPlayer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,20 +11,39 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bugtype.voicerecorder.Model.VoiceFile
 import kotlinx.android.synthetic.main.activity_file_list_item.view.*
 import android.text.method.TextKeyListener.clear
-
+import android.widget.Toast
+import com.jakewharton.rxbinding3.view.clicks
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.internal.schedulers.IoScheduler
+import java.io.File
+import java.lang.Exception
 
 
 class RecodingFilesAdapter(private var items: ArrayList<VoiceFile>): RecyclerView.Adapter<RecodingFilesAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
-        Log.v("tttt", items.size.toString())
         return items.size
     }
 
+
+    @SuppressLint("CheckResult")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var fileDTO = items[position]
-        Log.v("ttttt", fileDTO.name)
         holder?.txtName?.text = fileDTO.name
+        holder?.txtName
+            ?.clicks()
+            ?.subscribe {
+                val mediaPlayer = MediaPlayer()
+                try {
+                    mediaPlayer.setDataSource(fileDTO.path)
+                    mediaPlayer.prepare()
+                    mediaPlayer.start()
+                } catch (e: Exception) {
+                    // make something
+                    e.printStackTrace()
+                }
+            }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,6 +52,9 @@ class RecodingFilesAdapter(private var items: ArrayList<VoiceFile>): RecyclerVie
 
         return ViewHolder(itemView)
     }
+
+
+    // MARK:- Holder
     class ViewHolder(row: View) : RecyclerView.ViewHolder(row) {
         var txtName: TextView? = null
 
