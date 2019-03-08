@@ -88,21 +88,6 @@ class MainActivity : AppCompatActivity() {
                 myAudioRecorder = null;
                 Toast.makeText(getApplicationContext(), "Audio Recorder stopped", Toast.LENGTH_LONG).show();
             }
-        btn_play
-            .clicks()
-            .subscribe {
-                val mediaPlayer = MediaPlayer()
-                try {
-                    Log.v("Test", File(outputFile).exists().toString())
-                    mediaPlayer.setDataSource(outputFile)
-                    mediaPlayer.prepare()
-                    mediaPlayer.start()
-                    Toast.makeText(applicationContext, "Playing Audio", Toast.LENGTH_LONG).show()
-                } catch (e: Exception) {
-                    // make something
-                    e.printStackTrace()
-                }
-            }
     }
 
     @SuppressLint("CheckResult")
