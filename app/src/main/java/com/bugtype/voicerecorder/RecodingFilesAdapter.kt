@@ -39,7 +39,6 @@ class RecodingFilesAdapter(private var items: ArrayList<VoiceFile>): RecyclerVie
                     mediaPlayer.prepare()
                     mediaPlayer.start()
                 } catch (e: Exception) {
-                    // make something
                     e.printStackTrace()
                 }
             }

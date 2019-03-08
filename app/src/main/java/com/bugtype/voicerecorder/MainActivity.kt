@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecorder() {
         val nowDate = Date().toSimpleString()
-        Log.v("test", nowDate)
         myAudioRecorder = null
         myAudioRecorder = MediaRecorder()
         outputFile = "$outputFolder/$nowDate.3gp"

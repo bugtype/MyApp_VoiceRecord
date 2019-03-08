@@ -1,5 +1,6 @@
 package com.bugtype.voicerecorder
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -31,19 +32,18 @@ class RecodingFilesListActivity : AppCompatActivity() {
         rcycView_fileList?.adapter = adapter
     }
 
+
+    @SuppressLint("CheckResult")
     private fun updateUI(){
 
         Observable
             .fromIterable(voiceFileList)
             .subscribeOn(AndroidSchedulers.mainThread())
             .doOnComplete {
-                Log.v("ttt", voiceFileList.size.toString())
                 adapter?.notifyDataSetChanged()
-//                adapter?.changeItems(voiceFileList)
                 rcycView_fileList.invalidate()
             }
-            .subscribe {
-            }
+
     }
 
     private fun getFileList() {
