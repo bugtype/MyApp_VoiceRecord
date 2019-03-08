@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.util.Log
 import java.io.File
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private var myAudioRecorder: MediaRecorder? = null
     private var outputFile: String? = null
+    private var isRecording = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,8 @@ class MainActivity : AppCompatActivity() {
     private fun initSetting() {
         initVariables()
         initBinding()
+
+        btn_recorde.setBackgroundColor(Color.GREEN)
     }
 
     private fun initVariables() {
@@ -70,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Audio Recording started", Toast.LENGTH_LONG).show();
     }
 
     @SuppressLint("CheckResult")
@@ -78,15 +82,21 @@ class MainActivity : AppCompatActivity() {
         btn_recorde
             .clicks()
             .subscribe {
-                this.initRecorder()
-            }
-        btn_record_stop
-            .clicks()
-            .subscribe {
-                myAudioRecorder?.stop();
-                myAudioRecorder?.release();
-                myAudioRecorder = null;
-                Toast.makeText(getApplicationContext(), "Audio Recorder stopped", Toast.LENGTH_LONG).show();
+                if (!isRecording) {
+                    this.initRecorder()
+                    btn_recorde.setBackgroundColor(Color.RED)
+                    btn_recorde.text = getString(R.string.main_stop_recoding)
+                }
+                else
+                {
+                    btn_recorde.setBackgroundColor(Color.GREEN)
+                    btn_recorde.text = getString(R.string.main_start_recoding)
+                    myAudioRecorder?.stop();
+                    myAudioRecorder?.release();
+                    myAudioRecorder = null;
+                    Toast.makeText(this, "Audio Recorder stopped", Toast.LENGTH_LONG).show();
+                }
+                isRecording = !isRecording
             }
     }
 
@@ -127,12 +137,8 @@ class MainActivity : AppCompatActivity() {
         val id = item.getItemId()
 
         if (id == R.id.action_more) {
-            Toast.makeText(this, "Show Recording File", Toast.LENGTH_LONG).show()
-
             val intent = Intent(this, RecodingFilesListActivity::class.java)
             startActivity(intent)
-
-
             return true
         }
 
