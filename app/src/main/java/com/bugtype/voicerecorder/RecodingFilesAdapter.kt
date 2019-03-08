@@ -1,6 +1,7 @@
 package com.bugtype.voicerecorder
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.media.MediaPlayer
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import java.lang.Exception
 
 
 class RecodingFilesAdapter(private var items: ArrayList<VoiceFile>): RecyclerView.Adapter<RecodingFilesAdapter.ViewHolder>() {
+    private var context: Context? = null
 
     override fun getItemCount(): Int {
         return items.size
@@ -38,6 +40,7 @@ class RecodingFilesAdapter(private var items: ArrayList<VoiceFile>): RecyclerVie
                     mediaPlayer.setDataSource(fileDTO.path)
                     mediaPlayer.prepare()
                     mediaPlayer.start()
+                    Toast.makeText(context, "Play Recording File", Toast.LENGTH_LONG).show();
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -48,6 +51,7 @@ class RecodingFilesAdapter(private var items: ArrayList<VoiceFile>): RecyclerVie
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent?.context)
             .inflate(R.layout.activity_file_list_item, parent, false)
+        context = parent.context
 
         return ViewHolder(itemView)
     }
