@@ -6,8 +6,10 @@
     <item
             android:id="@+id/action_more"
             android:orderInCategory="300"
-            android:title="Show Recording File"
+            android:title="@string/show_recording_files"
             android:icon="@drawable/lb_ic_more"
-            app:showAsAction="collapseActionView"></item>
+            app:showAsAction="collapseActionView">
+
+    </item>
 
 </menu>

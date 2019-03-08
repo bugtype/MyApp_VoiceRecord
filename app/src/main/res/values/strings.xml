@@ -3,5 +3,6 @@
 
     <string name="main_start_recoding">Start Recording</string>
     <string name="main_stop_recoding">Stop Recording</string>
+    <string name="show_recording_files">Show Recording Files</string>
 
 </resources>
